@@ -43,17 +43,17 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    //override func viewWillAppear(animated: Bool)
-    //{
-      //  super.viewWillAppear(animated)
-      //  self.theCV.reloadData()
-    //}
-    override func viewDidAppear(animated: Bool)
+    override func viewWillAppear(animated: Bool)
     {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         self.theCV.reloadData()
-        
     }
+    //override func viewDidAppear(animated: Bool)
+    //{
+       // super.viewDidAppear(animated)
+        //self.theCV.reloadData()
+        
+    //}
 
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int
