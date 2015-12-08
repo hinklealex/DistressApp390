@@ -16,16 +16,12 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
     
     @IBOutlet weak var theCV: UICollectionView!
     
-    
-       
-    override func viewDidLoad()
+    func getDataFromParse()
     {
         
-        super.viewDidLoad()
-        
-            let query = PFQuery(className:"DistressContacts")
-           
-            query.findObjectsInBackgroundWithBlock { (objects : [PFObject]?, error: NSError?) -> Void in
+        let query = PFQuery(className:"Message")
+        query.whereKey("owner_id", equalTo: PhoneCore.currentUser)
+        query.findObjectsInBackgroundWithBlock { (objects : [PFObject]?, error: NSError?) -> Void in
             if(objects != nil)
             {
                 PhoneCore.distressData = objects!
@@ -40,21 +36,27 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
             }
         }
 
+    }
+    
+    
+    
+    override func viewDidLoad()
+    {
+        
+        super.viewDidLoad()
+        getDataFromParse()
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+   
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
-        self.theCV.reloadData()
-    }
-    //override func viewDidAppear(animated: Bool)
-    //{
-       // super.viewDidAppear(animated)
-        //self.theCV.reloadData()
+        getDataFromParse()
         
-    //}
-
+        }
+    
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int
     {
@@ -82,7 +84,7 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-      
+        
         // Dispose of any resources that can be recreated.
     }
     

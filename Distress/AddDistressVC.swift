@@ -12,31 +12,50 @@ import Parse
 class AddDistressVC: UIViewController {
     @IBOutlet weak var nameTF: UITextField!
     @IBOutlet weak var phoneTF: UITextField!
-    @IBOutlet weak var messageTF: UITextField!
     
+  
+    @IBOutlet weak var messageTV: UITextView!
     @IBAction func saveButtonClicked(sender: AnyObject)
     {
-        let distress = PFObject(className: "DistressContacts")
+        var message = ""
         
-        distress["name"] = self.nameTF.text!
-        distress["phone"] = self.phoneTF.text!
-        distress["message"] = self.messageTF.text!
-        distress.saveInBackgroundWithBlock{(success: Bool, error: NSError?) -> Void in
-            if (success)
-            {
-                print("Object has been saved")
-                DistressDashboard.count++
-               
-                // The object has been saved.
-            } else {
-                // There was a problem, check error.description
-            }
+        if(self.nameTF.text!.characters.count == 0)
+        {
+            message = "You must enter a name"
+        }
+        else if(self.phoneTF.text!.characters.count == 0)
+        {
+            message = "You must enter a phone number"
+        }
+        else if(self.messageTV.text!.characters.count == 0)
+        {
+            message = "You must enter a message"
         }
         
+        if(message.characters.count == 0)
+        {
+            //we can create the Message
+            let obj = PFObject(className: "Message")
+            obj.setValue(nameTF.text, forKey: "name")
+            obj.setValue(phoneTF.text, forKey: "phone")
+            obj.setValue(messageTV.text, forKey: "message_text")
+            obj.setValue(PhoneCore.currentUser, forKey: "owner_id")
+            obj.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
+                if(success)
+                {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
+                else
+                {
+                    PhoneCore.showAlert("Message Create Error", message: "Something went wrong during save!!!!", presentingViewController: self, onScreenDelay: 2.0)
+                }
             
         
 
+                })
+        }
     }
+    
 
     
     override func viewDidLoad()
