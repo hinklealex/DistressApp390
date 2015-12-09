@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import Alamofire
 
 
 class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
@@ -55,6 +56,8 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
         
         print(PhoneCore.distressData[indexPath.row]["phone"])
         print(PhoneCore.distressData[indexPath.row]["message_text"])
+        PhoneCore.sendSMS("\(PhoneCore.distressData[indexPath.row]["phone"])", message: "\(PhoneCore.distressData[indexPath.row]["message_text"])")
+        
         return true
     }
     
@@ -66,6 +69,7 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
     
     
     override func viewDidLoad()
+        
     {
         
         super.viewDidLoad()
