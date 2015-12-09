@@ -9,9 +9,15 @@
 import UIKit
 import Parse
 
+
 class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
 {
+    var accountSID = "AC8c0ad4e9ba2cf521f1f442e46ac5d983"
+    var authTokn = "7a11fcf620290c3d57f935e80d20b616"
+    var appSID = "APa836aabf6ae5b22e288973953453c98b"
     
+    
+   
     static var count = 0
     
     @IBOutlet weak var theCV: UICollectionView!
@@ -28,7 +34,7 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
                 self.theCV.reloadData()
                 print("Found")
                 print(objects?.count)
-                print(PhoneCore.distressData)
+                //print(PhoneCore.distressData)
             }
             else
             {
@@ -38,6 +44,25 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
 
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
+    {
+        //print("Slelected at indexPath: \(indexPath.row)")
+        //f(indexpath == PhoneCore.distressData.indexOf(<#T##element: PFObject##PFObject#>))
+    }
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
+        print("Slelected at indexPath: \(indexPath.row)")
+        
+        print(PhoneCore.distressData[indexPath.row]["phone"])
+        print(PhoneCore.distressData[indexPath.row]["message_text"])
+        return true
+    }
+    
+    func sendMessage()
+    {
+        
+    }
+    
     
     
     override func viewDidLoad()
@@ -45,6 +70,7 @@ class DistressDashboard: UIViewController, UICollectionViewDataSource, UICollect
         
         super.viewDidLoad()
         getDataFromParse()
+        
         
         // Do any additional setup after loading the view, typically from a nib.
     }
